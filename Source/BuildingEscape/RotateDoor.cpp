@@ -14,15 +14,26 @@ URotateDoor::URotateDoor()
 }
 
 
+void URotateDoor::OpenDoor()
+{
+	FRotator rotation(0, openAngle, 0); // pitch YAW roll
+	GetOwner()->SetActorRotation(rotation);
+}
+
+void URotateDoor::CloseDoor()
+{
+	FRotator rotation(0, 0, 0); // pitch YAW roll
+	GetOwner()->SetActorRotation(rotation);
+}
+
 // Called when the game starts
 void URotateDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FRotator rotation(0, 0, 0); // pitch YAW roll
+	player = GetWorld()->GetFirstPlayerController()->GetPawn();
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *player->GetName());
 
-	GetOwner()->SetActorRotation(rotation);
-	// ...
 	
 }
 
@@ -32,6 +43,16 @@ void URotateDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (trigger->IsOverlappingActor(player)) {
+		UE_LOG(LogTemp, Warning, TEXT("overlapping actor : %s"), *player->GetName());
+		OpenDoor();
+		lastTimeOpen = GetWorld()->GetTimeSeconds();
+	}
+
+	if (GetWorld()->GetTimeSeconds() - lastTimeOpen > closeDelay)
+	{
+		CloseDoor();
+	}
+
 }
 
