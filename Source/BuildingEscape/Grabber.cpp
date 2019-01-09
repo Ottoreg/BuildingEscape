@@ -19,6 +19,34 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 	player = GetWorld()->GetFirstPlayerController();
+	handle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+
+	if (!handle)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("error handle doesn't exists yet"));
+	}
+
+	UInputComponent* inputC = GetOwner()->FindComponentByClass<UInputComponent>();
+
+	if (!inputC)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("error input component doesn't exists yet"));
+	}
+
+	inputC->BindAction("Grab", IE_Pressed, this, &UGrabber::Grabbed);
+	inputC->BindAction("Release Grab", IE_Released, this, &UGrabber::Released);
+
+	
+}
+
+void UGrabber::Released()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Released"));
+}
+
+void UGrabber::Grabbed()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grabbed"));
 }
 
 
