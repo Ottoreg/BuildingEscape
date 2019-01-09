@@ -47,9 +47,7 @@ void URotateDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 		UE_LOG(LogTemp, Warning, TEXT("overlapping actor : %s"), *player->GetName());
 		OpenDoor();
 		lastTimeOpen = GetWorld()->GetTimeSeconds();
-	}
-
-	if (GetWorld()->GetTimeSeconds() - lastTimeOpen > closeDelay)
+	}else if (GetWorld()->GetTimeSeconds() - lastTimeOpen > closeDelay)
 	{
 		CloseDoor();
 	}
