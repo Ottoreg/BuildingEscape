@@ -28,8 +28,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	float viewDistance = 200;
+
 
 private:
-	AActor* player;
+	APlayerController* player;
+
+	UPROPERTY(EditAnyWhere)
+	float viewDistance = 250;
 };
