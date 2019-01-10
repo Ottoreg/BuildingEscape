@@ -41,12 +41,14 @@ void UGrabber::BeginPlay()
 
 void UGrabber::Released()
 {
+	handle->ReleaseComponent();
 	UE_LOG(LogTemp, Warning, TEXT("Released"));
 }
 
 void UGrabber::Grabbed()
 {
-
+	player->GetPlayerViewPoint(startPoint, playerRot);
+	endPoint = startPoint + playerRot.Vector() * viewDistance;
 	
 	FHitResult hit;
 	if (GetWorld()->LineTraceSingleByObjectType(hit, startPoint, endPoint, ECollisionChannel::ECC_PhysicsBody, FCollisionQueryParams(FName(), false, GetOwner())))
@@ -54,9 +56,7 @@ void UGrabber::Grabbed()
 		UE_LOG(LogTemp, Warning, TEXT("Actor touched name : %s grabbed"), *hit.GetActor()->GetName());
 		handle->GrabComponent(hit.GetComponent(), NAME_None, hit.GetActor()->GetActorLocation(), true);
 	}
-
 }
-
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -68,6 +68,5 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		endPoint = startPoint + playerRot.Vector() * viewDistance;
 		handle->SetTargetLocation(endPoint);
 	}
-
 }
 
