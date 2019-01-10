@@ -8,6 +8,7 @@
 #include "Engine/TriggerBox.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
+#include "Components/PrimitiveComponent.h"
 #include "RotateDoor.generated.h"
 
 
@@ -28,6 +29,8 @@ protected:
 
 	void OpenDoor();
 
+	float TotalMass();
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -45,5 +48,7 @@ private:
 	float closeDelay = 0.5;
 
 	float lastTimeOpen = 0;
+
+	float minimalMass = 99;
 
 };

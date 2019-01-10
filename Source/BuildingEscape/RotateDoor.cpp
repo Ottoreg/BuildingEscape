@@ -20,6 +20,20 @@ void URotateDoor::OpenDoor()
 	GetOwner()->SetActorRotation(rotation);
 }
 
+float URotateDoor::TotalMass()
+{
+	float totalMass = 0;
+	TSet<AActor*> overlappingActors;
+	trigger->GetOverlappingActors(overlappingActors);
+
+	for (AActor* actor : overlappingActors) {
+	totalMass += actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+		UE_LOG(LogTemp, Warning, TEXT("%f"), totalMass);
+	}
+
+	return totalMass;
+}
+
 void URotateDoor::CloseDoor()
 {
 	FRotator rotation(0, 0, 0); // pitch YAW roll
@@ -34,7 +48,6 @@ void URotateDoor::BeginPlay()
 	player = GetWorld()->GetFirstPlayerController()->GetPawn();
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *player->GetName());
 
-	
 }
 
 
@@ -43,7 +56,7 @@ void URotateDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (trigger->IsOverlappingActor(player)) {
+	if (TotalMass() >= minimalMass) {
 		UE_LOG(LogTemp, Warning, TEXT("overlapping actor : %s"), *player->GetName());
 		OpenDoor();
 		lastTimeOpen = GetWorld()->GetTimeSeconds();
@@ -51,6 +64,8 @@ void URotateDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	{
 		CloseDoor();
 	}
+
+	TotalMass();
 
 }
 
