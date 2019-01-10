@@ -36,10 +36,18 @@ public:
 
 
 private:
-	APlayerController* player;
+
+	APlayerController* player; // Référence sur player pour récupérer le player view point
+
+	UPhysicsHandleComponent* handle; // Référence sur mon PhysicsHandle pour gérer le grab et release
+
+	FVector startPoint;
+
+	FRotator playerRot;
+
+	FVector endPoint;
 
 	UPROPERTY(EditAnyWhere)
-	float viewDistance = 250;
+	float viewDistance = 250;  // Distance Maximale de grab
 
-	UPhysicsHandleComponent* handle;
 };

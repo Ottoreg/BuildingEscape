@@ -26,7 +26,7 @@ void UGrabber::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("error handle doesn't exists yet"));
 	}
 
-	UInputComponent* inputC = GetOwner()->FindComponentByClass<UInputComponent>();
+	UInputComponent* inputC = GetOwner()->FindComponentByClass<UInputComponent>(); // input component pour Grab et Release
 
 	if (!inputC)
 	{
@@ -34,7 +34,7 @@ void UGrabber::BeginPlay()
 	}
 
 	inputC->BindAction("Grab", IE_Pressed, this, &UGrabber::Grabbed);
-	inputC->BindAction("Release Grab", IE_Released, this, &UGrabber::Released);
+	inputC->BindAction("Grab", IE_Released, this, &UGrabber::Released);
 
 	
 }
@@ -46,7 +46,15 @@ void UGrabber::Released()
 
 void UGrabber::Grabbed()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grabbed"));
+
+	
+	FHitResult hit;
+	if (GetWorld()->LineTraceSingleByObjectType(hit, startPoint, endPoint, ECollisionChannel::ECC_PhysicsBody, FCollisionQueryParams(FName(), false, GetOwner())))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Actor touched name : %s grabbed"), *hit.GetActor()->GetName());
+		handle->GrabComponent(hit.GetComponent(), NAME_None, hit.GetActor()->GetActorLocation(), true);
+	}
+
 }
 
 
@@ -54,20 +62,11 @@ void UGrabber::Grabbed()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	FVector startPoint;
-	FRotator playerRot;
-	player->GetPlayerViewPoint(startPoint, playerRot);
-	//UE_LOG(LogTemp, Warning, TEXT("location : %s , rotation : %s"), *startPoint.ToString(), *playerRot.ToString());
-	FVector endPoint = startPoint + playerRot.Vector()*viewDistance;
-
-	FHitResult hit;
-
-	if (GetWorld()->LineTraceSingleByObjectType(hit, startPoint, endPoint, ECollisionChannel::ECC_PhysicsBody, FCollisionQueryParams(FName(), false, GetOwner())))
+	if (handle->GetGrabbedComponent() != nullptr)
 	{
-		FString nameActorTouched;
-		nameActorTouched = hit.GetActor()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("Actor touched name : %s"), *nameActorTouched);
+		player->GetPlayerViewPoint(startPoint, playerRot);
+		endPoint = startPoint + playerRot.Vector() * viewDistance;
+		handle->SetTargetLocation(endPoint);
 	}
 
 }
