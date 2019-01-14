@@ -19,9 +19,15 @@ void UTextPoids::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (!triggerMass) {
+		UE_LOG(LogTemp, Error, TEXT("triggerMass TextPoids not found !"));
+		return;
+	}
 	calcMass = triggerMass->FindComponentByClass<UCalculateMass>();
 
 	textRender = GetOwner()->FindComponentByClass<UTextRenderComponent>();
+
+	
 
 	// ...
 	
@@ -33,6 +39,10 @@ void UTextPoids::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if (!textRender) {
+		UE_LOG(LogTemp, Error, TEXT("textRender RotateDoor not found !"));
+		return;
+	}
 	textRender->SetText(FText::AsNumber(FMath::RoundToFloat(calcMass->MajMass())));
 
 	// ...

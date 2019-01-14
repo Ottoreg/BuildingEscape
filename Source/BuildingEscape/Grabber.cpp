@@ -19,6 +19,12 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 	player = GetWorld()->GetFirstPlayerController();
+
+	if (!player) {
+		UE_LOG(LogTemp, Error, TEXT("player Grabber not found !"));
+		return;
+	}
+
 	handle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 
 	if (!handle)
@@ -41,19 +47,31 @@ void UGrabber::BeginPlay()
 
 void UGrabber::Released()
 {
+	if (!handle) {
+		UE_LOG(LogTemp, Error, TEXT("handle Grabber::Released not found !"));
+		return;
+	}
 	handle->ReleaseComponent();
 	UE_LOG(LogTemp, Warning, TEXT("Released"));
 }
 
 void UGrabber::Grabbed()
 {
+	if (!player) {
+		UE_LOG(LogTemp, Error, TEXT("player Grabber::Grabbed not found !"));
+		return;
+	}
 	player->GetPlayerViewPoint(startPoint, playerRot);
 	endPoint = startPoint + playerRot.Vector() * viewDistance;
 	
 	FHitResult hit;
 	if (GetWorld()->LineTraceSingleByObjectType(hit, startPoint, endPoint, ECollisionChannel::ECC_PhysicsBody, FCollisionQueryParams(FName(), false, GetOwner())))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Actor touched name : %s grabbed"), *hit.GetActor()->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("Actor touched name : %s grabbed"), *hit.GetActor()->GetName());
+		if (!handle) {
+			UE_LOG(LogTemp, Error, TEXT("handle Grabber::Grabbed not found !"));
+			return;
+		}
 		handle->GrabComponent(hit.GetComponent(), NAME_None, hit.GetActor()->GetActorLocation(), true);
 	}
 }
@@ -62,6 +80,11 @@ void UGrabber::Grabbed()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!handle) {
+		UE_LOG(LogTemp, Error, TEXT("handle Grabber not found !"));
+		return;
+	}
 	if (handle->GetGrabbedComponent() != nullptr)
 	{
 		player->GetPlayerViewPoint(startPoint, playerRot);
