@@ -17,22 +17,11 @@ URotateDoor::URotateDoor()
 void URotateDoor::OpenDoor()
 {
 	FRotator rotation(0, openAngle, 0); // pitch YAW roll
+
 	GetOwner()->SetActorRotation(rotation);
 }
 
-float URotateDoor::TotalMass()
-{
-	float totalMass = 0;
-	TSet<AActor*> overlappingActors;
-	trigger->GetOverlappingActors(overlappingActors);
 
-	for (AActor* actor : overlappingActors) {
-	totalMass += actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
-		UE_LOG(LogTemp, Warning, TEXT("%f"), totalMass);
-	}
-
-	return totalMass;
-}
 
 void URotateDoor::CloseDoor()
 {
@@ -46,6 +35,13 @@ void URotateDoor::BeginPlay()
 	Super::BeginPlay();
 
 	player = GetWorld()->GetFirstPlayerController()->GetPawn();
+
+	if (!triggerMass) {
+		UE_LOG(LogTemp, Error, TEXT("triggerMass RotateDoor not found !"));
+		return;
+	}
+	calcMass = triggerMass->FindComponentByClass<UCalculateMass>();
+
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *player->GetName());
 
 }
@@ -56,16 +52,18 @@ void URotateDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (TotalMass() >= minimalMass) {
-		UE_LOG(LogTemp, Warning, TEXT("overlapping actor : %s"), *player->GetName());
+	if (!calcMass) {
+		UE_LOG(LogTemp, Error, TEXT("calcMass RotateDoor not found !"));
+		return;
+	}
+	if (calcMass->MajMass() == 0)
+	{
 		OpenDoor();
 		lastTimeOpen = GetWorld()->GetTimeSeconds();
-	}else if (GetWorld()->GetTimeSeconds() - lastTimeOpen > closeDelay)
+	}
+	else if (GetWorld()->GetTimeSeconds() - lastTimeOpen > closeDelay)
 	{
 		CloseDoor();
 	}
-
-	TotalMass();
-
 }
 

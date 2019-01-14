@@ -37,9 +37,9 @@ public:
 
 private:
 
-	APlayerController* player; // Référence sur player pour récupérer le player view point
+	APlayerController* player = nullptr; // Référence sur player pour récupérer le player view point
 
-	UPhysicsHandleComponent* handle; // Référence sur mon PhysicsHandle pour gérer le grab et release
+	UPhysicsHandleComponent* handle = nullptr; // Référence sur mon PhysicsHandle pour gérer le grab et release
 
 	FVector startPoint;
 
