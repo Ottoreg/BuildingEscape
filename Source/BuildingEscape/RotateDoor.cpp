@@ -14,21 +14,6 @@ URotateDoor::URotateDoor()
 }
 
 
-void URotateDoor::OpenDoor()
-{
-	FRotator rotation(0, openAngle, 0); // pitch YAW roll
-
-	GetOwner()->SetActorRotation(rotation);
-}
-
-
-
-void URotateDoor::CloseDoor()
-{
-	FRotator rotation(0, 0, 0); // pitch YAW roll
-	GetOwner()->SetActorRotation(rotation);
-}
-
 // Called when the game starts
 void URotateDoor::BeginPlay()
 {
@@ -58,12 +43,11 @@ void URotateDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	}
 	if (calcMass->MajMass() == 0)
 	{
-		OpenDoor();
-		lastTimeOpen = GetWorld()->GetTimeSeconds();
+		onOpenRequest.Broadcast();
 	}
-	else if (GetWorld()->GetTimeSeconds() - lastTimeOpen > closeDelay)
+	else
 	{
-		CloseDoor();
+		onCloseRequest.Broadcast();
 	}
 }
 

@@ -12,6 +12,7 @@
 #include "CalculateMass.h"
 #include "RotateDoor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDoorEvent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API URotateDoor : public UActorComponent
@@ -43,12 +44,12 @@ private:
 
 	UCalculateMass* calcMass = nullptr;
 
+	UPROPERTY(BlueprintAssignable)
+	FDoorEvent onOpenRequest; 
+	UPROPERTY(BlueprintAssignable)
+	FDoorEvent onCloseRequest;
 
 	AActor* player = nullptr;
 
-	UPROPERTY(EditAnywhere)
-	float closeDelay = 0.5;
-
-	float lastTimeOpen = 0;
 
 };
