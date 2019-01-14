@@ -31,7 +31,7 @@ float UCalculateMass::MajMass()
 	TSet<AActor*> overlappingActors;
 	if (!trigger) {
 		UE_LOG(LogTemp, Error, TEXT("trigger CalculateMass not found !"));
-		return;
+		return 0;
 	}
 	trigger->GetOverlappingActors(overlappingActors);
 

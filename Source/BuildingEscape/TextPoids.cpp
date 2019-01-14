@@ -38,13 +38,17 @@ void UTextPoids::BeginPlay()
 void UTextPoids::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	MajText();
 
+	// ...
+}
+
+void UTextPoids::MajText()
+{
 	if (!textRender) {
 		UE_LOG(LogTemp, Error, TEXT("textRender RotateDoor not found !"));
 		return;
 	}
 	textRender->SetText(FText::AsNumber(FMath::RoundToFloat(calcMass->MajMass())));
-
-	// ...
 }
 
