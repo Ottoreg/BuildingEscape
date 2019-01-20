@@ -46,7 +46,7 @@ void UTextPoids::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 void UTextPoids::MajText()
 {
 	if (!textRender) {
-		UE_LOG(LogTemp, Error, TEXT("textRender RotateDoor not found !"));
+		UE_LOG(LogTemp, Error, TEXT("textRender TextPoids not found !"));
 		return;
 	}
 	textRender->SetText(FText::AsNumber(FMath::RoundToFloat(calcMass->MajMass())));
