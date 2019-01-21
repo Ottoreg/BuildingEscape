@@ -9,6 +9,8 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "ColorButton.h"
+#include "TextColor.h"
 #include "Grabber.generated.h"
 
 
@@ -29,10 +31,11 @@ protected:
 
 	void Grabbed();
 
+	void ClicButton();
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 
 
 private:
@@ -46,6 +49,8 @@ private:
 	FRotator playerRot;
 
 	FVector endPoint;
+
+	UColorButton* button;
 
 	UPROPERTY(EditAnyWhere)
 	float viewDistance = 250;  // Distance Maximale de grab

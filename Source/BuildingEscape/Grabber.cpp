@@ -18,6 +18,7 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
+
 	player = GetWorld()->GetFirstPlayerController();
 
 	if (!player) {
@@ -32,6 +33,7 @@ void UGrabber::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("error handle doesn't exists yet"));
 	}
 
+
 	UInputComponent* inputC = GetOwner()->FindComponentByClass<UInputComponent>(); // input component pour Grab et Release
 
 	if (!inputC)
@@ -41,6 +43,7 @@ void UGrabber::BeginPlay()
 
 	inputC->BindAction("Grab", IE_Pressed, this, &UGrabber::Grabbed);
 	inputC->BindAction("Grab", IE_Released, this, &UGrabber::Released);
+	inputC->BindAction("Clic", IE_Pressed, this, &UGrabber::ClicButton);
 
 	
 }
@@ -73,6 +76,29 @@ void UGrabber::Grabbed()
 			return;
 		}
 		handle->GrabComponent(hit.GetComponent(), NAME_None, hit.GetActor()->GetActorLocation(), true);
+	}
+}
+
+void UGrabber::ClicButton()
+{
+	UE_LOG(LogTemp, Error, TEXT("oui"));
+	if (!player) {
+		UE_LOG(LogTemp, Error, TEXT("player Grabber::Grabbed not found !"));
+		return;
+	}
+	player->GetPlayerViewPoint(startPoint, playerRot);
+	endPoint = startPoint + playerRot.Vector() * viewDistance;
+
+	FHitResult hit;
+	if (GetWorld()->LineTraceSingleByObjectType(hit, startPoint, endPoint, ECollisionChannel::ECC_WorldStatic, FCollisionQueryParams(FName(), false, GetOwner())))
+	{
+		button = hit.GetActor()->FindComponentByClass<UColorButton>();
+		if (button != nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("oui"));
+			button->OnButtonClic();
+			//button->textRenderActor->FindComponentByClass<UTextColor>()->Display();
+		}
 	}
 }
 

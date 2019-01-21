@@ -69,11 +69,102 @@ void UTextColor::SetColorText(int r, int g, int b)
 	textRender->SetText("#" + hexR + hexG + hexB);
 }
 
+void UTextColor::SetPower(int _pow, bool _add) {
+	
+	if(_add){
 
+		switch (_pow)
+			{
+			case 0:
+				digit0 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			case 1:
+				digit1 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			case 2:
+				digit2 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			case 3:
+				digit3 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			case 4:
+				digit4 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			case 5:
+				digit5 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			case 6:
+				digit6 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			case 7:
+				digit7 = 1;
+				totalCount += pow(2, _pow);
+				break;
+			default:
+				break;
+			}
+	}
+	else {
+		switch (_pow)
+			{
+			case 0:
+				digit0 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			case 1:
+				digit1 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			case 2:
+				digit2 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			case 3:
+				digit3 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			case 4:
+				digit4 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			case 5:
+				digit5 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			case 6:
+				digit6 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			case 7:
+				digit7 = 0;
+				totalCount -= pow(2, _pow);
+				break;
+			default:
+				break;
+			}
+	}
+
+	UpdateText();
+
+}
+
+void UTextColor::UpdateText(){
+	
+	textRender->SetText(FString::FromInt(digit7) + FString::FromInt(digit6) + FString::FromInt(digit5) + FString::FromInt(digit4) + FString::FromInt(digit3) + FString::FromInt(digit2) + FString::FromInt(digit1) + FString::FromInt(digit0));
+}
 
 // Called every frame
 void UTextColor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	
 }
 

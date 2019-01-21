@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/TextRenderActor.h"
+#include "GameFramework/Actor.h"
+#include "TextColor.h"
 #include "ColorButton.generated.h"
 
 
@@ -22,6 +24,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -29,4 +32,13 @@ public:
 	UPROPERTY(EditAnywhere)
 	ATextRenderActor* textRenderActor = nullptr;
 	UTextRenderComponent* textRender = nullptr;
+	UPROPERTY(EditAnywhere)
+	int twoPower;
+	UPROPERTY(EditAnywhere)
+	bool activated = false;
+
+	void OnButtonClic();
+
+	int GetTwoPower();
+	bool GetActivated();
 };

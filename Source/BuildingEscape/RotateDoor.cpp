@@ -38,12 +38,13 @@ void URotateDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (!calcMass) {
-		UE_LOG(LogTemp, Error, TEXT("calcMass RotateDoor not found !"));
+		//UE_LOG(LogTemp, Error, TEXT("calcMass RotateDoor not found !"));
 		return;
 	}
 	if (calcMass->MajMass() == 0)
 	{
 		onOpenRequest.Broadcast();
+		
 	}
 	else
 	{

@@ -7,6 +7,7 @@
 #include "Components/TextRenderComponent.h"
 #include "Math/UnrealMathUtility.h"
 #include "Containers/UnrealString.h "
+#include "math.h"
 #include "TextColor.generated.h"
 
 
@@ -44,7 +45,20 @@ public:
 	UPROPERTY(EditAnywhere)
 	int colorB;
 
+	int digit0;
+	int digit1;
+	int digit2;
+	int digit3;
+	int digit4;
+	int digit5;
+	int digit6;
+	int digit7;
+
+	int totalCount = 0;
+
 	UTextRenderComponent* textRender = nullptr;
 
+	void SetPower(int _pow, bool _add);
+	void UpdateText(); 
 	
 };

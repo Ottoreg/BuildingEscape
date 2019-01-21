@@ -19,7 +19,8 @@ void UColorButton::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!textRenderActor) {
+	if (!textRenderActor)
+	{
 		UE_LOG(LogTemp, Error, TEXT("textRenderActor ColorButton not found !"));
 		return;
 	}
@@ -38,3 +39,24 @@ void UColorButton::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	// ...
 }
 
+void UColorButton::OnButtonClic() {
+
+	if (activated)
+	{
+		activated = false;
+		textRenderActor->FindComponentByClass<UTextColor>()->SetPower(twoPower,activated);
+	}
+	else 
+	{
+		activated = true;
+		textRenderActor->FindComponentByClass<UTextColor>()->SetPower(twoPower,activated);
+	}
+}
+
+int UColorButton::GetTwoPower(){
+	return twoPower;
+}
+
+bool UColorButton::GetActivated(){
+	return activated;
+}
