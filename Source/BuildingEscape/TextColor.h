@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/TextRenderComponent.h"
+#include "Engine/TextRenderActor.h"
 #include "Math/UnrealMathUtility.h"
 #include "Containers/UnrealString.h "
 #include "math.h"
@@ -38,12 +39,24 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	int colorR;
+	int intR;
 
 	UPROPERTY(EditAnywhere)
 	int colorG;
+	int intG;
 
 	UPROPERTY(EditAnywhere)
 	int colorB;
+	int intB;
+
+	UPROPERTY(EditAnywhere)
+	ATextRenderActor* textRenderActorR = nullptr;
+	
+	UPROPERTY(EditAnywhere)
+	ATextRenderActor* textRenderActorG = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	ATextRenderActor* textRenderActorB = nullptr;
 
 	int digit0;
 	int digit1;
@@ -54,11 +67,19 @@ public:
 	int digit6;
 	int digit7;
 
-	int totalCount = 0;
+	int totalCount;
+
+	bool rDone, gDone, bDone = false;
+
+	bool GetRDone();
+	bool GetGDone();
+	bool GetBDone();
 
 	UTextRenderComponent* textRender = nullptr;
 
 	void SetPower(int _pow, bool _add);
 	void UpdateText(); 
+
+	int GetTotalCount();
 	
 };

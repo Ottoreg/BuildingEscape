@@ -4,42 +4,34 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Components/TextRenderComponent.h"
-#include "Engine/TextRenderActor.h"
-#include "GameFramework/Actor.h"
 #include "TextColor.h"
-#include "ColorButton.generated.h"
+#include "OpenDoor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOpenDoorEvent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class BUILDINGESCAPE_API UColorButton : public UActorComponent
+class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UColorButton();
+	UOpenDoor();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UPROPERTY(EditAnywhere)
-	ATextRenderActor* textRenderActor = nullptr;
-	UTextRenderComponent* textRender = nullptr;
-	UPROPERTY(EditAnywhere)
-	int twoPower;
-	UPROPERTY(EditAnywhere)
-	bool activated = false;
+private: 
 
-	void OnButtonClic();
+	UPROPERTY(EditAnywhere)
+	ATextRenderActor* textRenderActor;
 
-	int GetTwoPower();
-	bool GetActivated();
-
+	UPROPERTY(BlueprintAssignable)
+	FOpenDoorEvent OnOpenRequest;
+	
 };

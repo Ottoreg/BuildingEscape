@@ -46,9 +46,9 @@ void UTextColor::InitializeText()
 
 void UTextColor::SetRandomTextColor()
 {
-	int intR = FMath::RandRange(0, 255);
-	int intG = FMath::RandRange(0, 255);
-	int intB = FMath::RandRange(0, 255);
+	intR = FMath::RandRange(0, 255);
+	intG = FMath::RandRange(0, 255);
+	intB = FMath::RandRange(0, 255);
 
 	textRender->SetTextRenderColor(FColor(intR, intG, intB, 255));
 	SetColorText(intR, intG, intB);
@@ -160,11 +160,53 @@ void UTextColor::UpdateText(){
 	textRender->SetText(FString::FromInt(digit7) + FString::FromInt(digit6) + FString::FromInt(digit5) + FString::FromInt(digit4) + FString::FromInt(digit3) + FString::FromInt(digit2) + FString::FromInt(digit1) + FString::FromInt(digit0));
 }
 
+int UTextColor::GetTotalCount()
+{
+	return totalCount;
+}
+
+bool UTextColor::GetRDone()
+{
+	return rDone;
+}
+bool UTextColor::GetGDone()
+{
+	return gDone;
+}
+bool UTextColor::GetBDone()
+{
+	return bDone;
+}
+
+
 // Called every frame
 void UTextColor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	
+	if(textRenderActorR != nullptr && !rDone)
+	{
+		if (textRenderActorR->FindComponentByClass<UTextColor>()->GetTotalCount() == intR)
+		{
+			rDone = true;
+			UE_LOG(LogTemp, Error, TEXT("R done !"));
+		}
+	}
+	if(textRenderActorG != nullptr && !gDone)
+	{
+		if (textRenderActorG->FindComponentByClass<UTextColor>()->GetTotalCount() == intG)
+		{
+			gDone = true;
+			UE_LOG(LogTemp, Error, TEXT("G done !"));
+		}
+	}
+	if(textRenderActorB != nullptr && !bDone)
+	{
+		if (textRenderActorB->FindComponentByClass<UTextColor>()->GetTotalCount() == intB)
+		{
+			bDone = true;
+			UE_LOG(LogTemp, Error, TEXT("B done !"));
+		}
+	}
 }
 
