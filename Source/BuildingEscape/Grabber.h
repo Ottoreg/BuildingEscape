@@ -53,6 +53,6 @@ private:
 	UColorButton* button;
 
 	UPROPERTY(EditAnyWhere)
-	float viewDistance = 250;  // Distance Maximale de grab
+	float viewDistance = 150;  // Distance Maximale de grab
 
 };

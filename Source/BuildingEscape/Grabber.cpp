@@ -114,7 +114,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	if (handle->GetGrabbedComponent() != nullptr)
 	{
 		player->GetPlayerViewPoint(startPoint, playerRot);
-		endPoint = startPoint + playerRot.Vector() * viewDistance;
+		endPoint = startPoint + playerRot.Vector() * (viewDistance-50);
 		handle->SetTargetLocation(endPoint);
 	}
 }
