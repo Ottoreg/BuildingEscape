@@ -76,6 +76,7 @@ void UGrabber::Grabbed()
 			return;
 		}
 		handle->GrabComponent(hit.GetComponent(), NAME_None, hit.GetActor()->GetActorLocation(), true);
+
 	}
 }
 
@@ -95,7 +96,7 @@ void UGrabber::ClicButton()
 		button = hit.GetActor()->FindComponentByClass<UColorButton>();
 		if (button != nullptr)
 		{
-			UE_LOG(LogTemp, Error, TEXT("oui"));
+			UE_LOG(LogTemp, Error, TEXT("clic"));
 			button->OnButtonClic();
 			//button->textRenderActor->FindComponentByClass<UTextColor>()->Display();
 		}

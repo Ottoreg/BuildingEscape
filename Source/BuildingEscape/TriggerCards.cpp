@@ -39,11 +39,11 @@ void UTriggerCards::checkCardIn()
 		if (actor == card)
 		{
 			goodCardIn = true;
-			UE_LOG(LogTemp, Error, TEXT("good card in !"));
+			//UE_LOG(LogTemp, Error, TEXT("good card in !"));
 		}
 		else {
 			goodCardIn = false;
-			UE_LOG(LogTemp, Warning, TEXT("wrong card in !"));
+			//UE_LOG(LogTemp, Warning, TEXT("wrong card in !"));
 		}
 	}
 

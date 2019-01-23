@@ -11,6 +11,7 @@
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "ColorButton.h"
 #include "TextColor.h"
+#include "Components/StaticMeshComponent.h"
 #include "Grabber.generated.h"
 
 
